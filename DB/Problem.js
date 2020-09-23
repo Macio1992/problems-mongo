@@ -1,23 +1,28 @@
 const mongoose = require('mongoose');
 
 const problem = mongoose.Schema({
-    content: {
+    ProblemContent: {
         type: String,
         required: true
     },
-    answer: {
+    ProblemSolution: {
         type: String,
         required: true
     },
-    type: {
+    ProblemType: {
         type: String,
         required: true
     },
-    createdAt: {
+    ProblemCategory: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Category',
+        default: null
+    },
+    CreatedAt: {
         type: Date,
         default: new Date()
     },
-    updatedAt: {
+    UpdatedAt: {
         type: Date,
         default: null
     },

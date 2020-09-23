@@ -1,7 +1,7 @@
 [
     {
-        "content": "What is the SQS message size limit?",
-        "answer": "256KB",
-        "type": "SINGLE"
+        "ProblemContent": "What is the SQS message size limit? [KB]",
+        "ProblemSolution": "256",
+        "ProblemType": "SINGLE"
     }
 ]
