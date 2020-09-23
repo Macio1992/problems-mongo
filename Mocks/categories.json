@@ -1,5 +1,20 @@
 [
     {
         "CategoryName": "AWS"
+    },
+    {
+        "CategoryName": "GIT"
+    },
+    {
+        "CategoryName": "SCRUM"
+    },
+    {
+        "CategoryName": "JAVASCRIPT"
+    },
+    {
+        "CategoryName": "NODEJS"
+    },
+    {
+        "CategoryName": "AZURE"
     }
 ]

@@ -1,7 +1,8 @@
 const express = require('express');
 const Problem = require('../DB/Problem');
+const Category = require('../DB/Category');
 const router = express.Router();
-const mockedProblems = require('../Mocks/problems.json');
+const ProblemsHelper = require('../Helpers/Problems');
 
 router.post('/', async (req, res) => {
     try {
@@ -14,10 +15,13 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/many', async (req, res) => {
+router.post('/:problemsAmount', async (req, res) => {
     try {
-        await Problem.insertMany(mockedProblems);
-        res.json({ message: `Successfully feeded db with problems ${mockedProblems.length}` });
+        const categories = await Category.find({});
+        const problemsHelper = new ProblemsHelper(categories, +req.params.problemsAmount);
+        const problemsToInsert = problemsHelper.createRandomProblems();
+        await Problem.insertMany(problemsToInsert);
+        res.json({ message: `Successfully feeded db with problems ${problemsToInsert.length}` });
     } catch (err) {
         console.error(err);
         res.json({ error: JSON.stringify(err) });
@@ -51,6 +55,15 @@ router.put('/:id', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.json({ error: JSON.stringify(err) });
+    }
+});
+
+router.delete('/all', async (req, res) => {
+    try {
+        await Problem.remove({});
+        res.json({message: 'Successfully removed all problems'});
+    } catch (err) {
+        console.error(err);
     }
 });
 
