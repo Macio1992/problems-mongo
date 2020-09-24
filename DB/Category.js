@@ -5,6 +5,14 @@ const category = mongoose.Schema({
         type: String,
         required: true
     },
+    isRootCategory: {
+        type: Boolean,
+        default: false
+    },
+    CategoryParentId: {
+        type: String,
+        default: null
+    },
     CreatedAt: {
         type: Date,
         default: new Date()
