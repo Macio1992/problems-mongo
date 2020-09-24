@@ -3,23 +3,23 @@ const mongoose = require('mongoose');
 const category = mongoose.Schema({
     CategoryName: {
         type: String,
-        required: true
+        required: true,
     },
     isRootCategory: {
         type: Boolean,
-        default: false
+        default: false,
     },
     CategoryParentId: {
         type: String,
-        default: null
+        default: null,
     },
     CreatedAt: {
         type: Date,
-        default: new Date()
+        default: new Date(),
     },
     UpdatedAt: {
         type: Date,
-        default: null
+        default: null,
     },
 });
 
