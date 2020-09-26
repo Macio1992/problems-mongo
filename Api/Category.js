@@ -1,5 +1,6 @@
 const express = require('express');
 const Category = require('../DB/Category');
+const CategoriesHelper = require('../Helpers/Categories');
 const router = express.Router();
 const mockedCategories = require('../Mocks/categories.json');
 
@@ -17,7 +18,11 @@ router.post('/', async (req, res) => {
 router.post('/many', async (req, res) => {
     try {
         await Category.insertMany(mockedCategories);
-        res.json({ message: `Successfully feeded db with categories ${mockedCategories.length}` });
+        const categories = await Category.find({});
+        const categoriesHelper = new CategoriesHelper(categories, 20);
+        const subcategories = categoriesHelper.getRandomSubCategories();
+        await Category.insertMany(subcategories);
+        res.json({ message: `Successfully feeded db with categories ${mockedCategories.length + subcategories.length}` });
     } catch (err) {
         console.error(err);
         res.json({ error: JSON.stringify(err) });
@@ -51,6 +56,15 @@ router.put('/:id', async (req, res) => {
     } catch (err) {
         console.error(err);
         res.json({ error: JSON.stringify(err) });
+    }
+});
+
+router.delete('/all', async (req, res) => {
+    try {
+        await Category.deleteMany({});
+        res.json({message: 'Successfully removed all categories'});
+    } catch (err) {
+        console.error(err);
     }
 });
 
