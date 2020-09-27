@@ -15,11 +15,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/many', async (req, res) => {
+router.post('/:categoriesAmount', async (req, res) => {
     try {
         await Category.insertMany(mockedCategories);
         const categories = await Category.find({});
-        const categoriesHelper = new CategoriesHelper(categories, 20);
+        const categoriesHelper = new CategoriesHelper(categories, +req.params.categoriesAmount);
         const subcategories = categoriesHelper.getRandomSubCategories();
         await Category.insertMany(subcategories);
         res.json({ message: `Successfully feeded db with categories ${mockedCategories.length + subcategories.length}` });
@@ -33,6 +33,26 @@ router.get('/', async (req, res) => {
     try {
         const categories = await Category.find({});
         res.json(categories);
+    } catch (err) {
+        console.error(err);
+        res.json({ error: JSON.stringify(err) });
+    }
+});
+
+router.get('/rootCategories', async (req, res) => {
+    try {
+        const rootCategories = await Category.find({ isRootCategory: true });
+        res.json({ rootCategories });
+    } catch (err) {
+        console.error(err);
+        res.json({ error: JSON.stringify(err) });
+    }
+});
+
+router.get('/subcategories/:rootCategoryId', async (req, res) => {
+    try {
+        const subcategories = await Category.find({ CategoryParentId: req.params.rootCategoryId });
+        res.json({ subcategories });
     } catch (err) {
         console.error(err);
         res.json({ error: JSON.stringify(err) });
@@ -62,7 +82,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/all', async (req, res) => {
     try {
         await Category.deleteMany({});
-        res.json({message: 'Successfully removed all categories'});
+        res.json({ message: 'Successfully removed all categories' });
     } catch (err) {
         console.error(err);
     }
