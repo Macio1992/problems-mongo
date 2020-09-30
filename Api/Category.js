@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
 router.get('/rootCategories', async (req, res) => {
     try {
         const rootCategories = await Category.find({ isRootCategory: true });
-        res.json({ rootCategories });
+        res.json(rootCategories);
     } catch (err) {
         console.error(err);
         res.json({ error: JSON.stringify(err) });
