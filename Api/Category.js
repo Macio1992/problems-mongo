@@ -52,7 +52,7 @@ router.get('/rootCategories', async (req, res) => {
 router.get('/subcategories/:rootCategoryId', async (req, res) => {
     try {
         const subcategories = await Category.find({ CategoryParentId: req.params.rootCategoryId });
-        res.json({ subcategories });
+        res.json(subcategories);
     } catch (err) {
         console.error(err);
         res.json({ error: JSON.stringify(err) });
