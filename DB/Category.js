@@ -7,7 +7,7 @@ const category = mongoose.Schema({
     },
     isRootCategory: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     CategoryParentId: {
         type: String,

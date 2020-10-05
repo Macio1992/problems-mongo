@@ -18,6 +18,11 @@ const problem = mongoose.Schema({
         ref: 'Category',
         default: null,
     },
+    ProblemSubCategory: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Category',
+        default: null,
+    },
     CreatedAt: {
         type: Date,
         default: new Date(),
