@@ -50,6 +50,12 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
+        const problem = await Problem.findById({ _id: req.params.id });
+
+        if (!problem) {
+            res.json({ message: 'Requested problem could not be found in db' });
+        }
+
         await Problem.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: true });
         res.json({ message: `Successfully updated problem with id ${req.params.id}` });
     } catch (err) {
@@ -61,7 +67,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/all', async (req, res) => {
     try {
         await Problem.remove({});
-        res.json({message: 'Successfully removed all problems'});
+        res.json({ message: 'Successfully removed all problems' });
     } catch (err) {
         console.error(err);
     }
@@ -69,6 +75,12 @@ router.delete('/all', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
+        const problem = await Problem.findById({ _id: req.params.id });
+
+        if (!problem) {
+            res.json({ message: 'Requested problem could not be found in db' });
+        }
+
         await Problem.findByIdAndDelete(req.params.id, { useFindAndModify: true });
         res.json({ message: `Successfully deleted problem with id ${req.params.id}` });
     } catch (err) {
