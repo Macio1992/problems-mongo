@@ -48,6 +48,15 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+router.get('/subcategory/:id', async (req, res) => {
+    try {
+        const categoriesByCategory = await Problem.find({ ProblemSubCategory: req.params.id });
+        res.json(categoriesByCategory);
+    } catch (err) {
+        res.json({ message: `Could't find any problems with id: ${req.params.id}` })
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         const problem = await Problem.findById({ _id: req.params.id });
